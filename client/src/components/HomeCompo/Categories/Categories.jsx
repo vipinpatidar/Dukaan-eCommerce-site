@@ -8,7 +8,7 @@ const Categories = () => {
   const categoriesRef = useRef(null);
 
   return (
-    <Draggable>
+    <Draggable categoriesRef={categoriesRef}>
       <Container ref={categoriesRef} className="categories">
         {categories.map((item) => (
           <CategoryItem item={item} key={item.id} />

@@ -129,7 +129,7 @@ const Cart = ({ isLoading, error, carts }) => {
     const makePayment = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/checkout/payment",
+          `${import.meta.env.VITE_SERVER_URL}/api/checkout/payment`,
           {
             amount: totalPrice * 100,
           }

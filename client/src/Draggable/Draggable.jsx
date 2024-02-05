@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const Draggable = ({ children }) => {
+const Draggable = ({ children, categoriesRef }) => {
   const ourRef = useRef(null);
 
   const [isMousedown, setIsMousedown] = useState(false);
@@ -10,7 +10,7 @@ const Draggable = ({ children }) => {
     scrollLeft: 0,
   });
 
-  const categories = document.querySelector(".categories");
+  // const categories = document.querySelector(".categories");
 
   // const [isScrolling, setIsScrolling] = useState(false);
 
@@ -25,13 +25,15 @@ const Draggable = ({ children }) => {
     mouseCoords.current = { startX, scrollLeft };
 
     setIsMousedown(true);
-    categories.style.cursor = "grabbing";
+    // categories.style.cursor = "grabbing";
+    categoriesRef.current.style.cursor = "grabbing";
   };
 
   const handleDragEnd = () => {
     setIsMousedown(false);
     if (!ourRef.current) return;
-    categories.style.cursor = "default";
+    // categories.style.cursor = "default";
+    categoriesRef.current.style.cursor = "default";
   };
 
   const handleDrag = (e) => {
