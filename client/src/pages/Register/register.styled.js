@@ -1,0 +1,73 @@
+import styled from "styled-components";
+import { mobile, tab } from "../../responsive";
+import { Link } from "react-router-dom";
+
+export const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("https://images.pexels.com/photos/6984661/pexels-photo-6984661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+      center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Wrapper = styled.div`
+  width: 40%;
+  padding: 20px;
+  background-color: white;
+  ${tab({ width: "65%" })}
+  ${mobile({ width: "96%" })}
+`;
+
+export const Title = styled.h1`
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 10px;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const Input = styled.input`
+  flex: 1;
+  min-width: 40%;
+  margin: 20px 10px 0px 0px;
+  padding: 10px;
+  outline: none;
+`;
+
+export const Agreement = styled.span`
+  font-size: 12px;
+  margin: 20px 0px;
+`;
+
+export const Button = styled.button`
+  width: 40%;
+  border: none;
+  padding: 12px 18px;
+  color: white;
+  cursor: pointer;
+  display: block;
+  background-color: #a435f0;
+
+  &:hover {
+    background-color: #8710d8;
+  }
+`;
+
+export const StyledLink = styled(Link)`
+  margin: 15px 0px 5px;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  display: block;
+  color: #111;
+`;
