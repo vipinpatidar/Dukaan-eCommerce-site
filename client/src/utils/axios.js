@@ -41,7 +41,7 @@ export const token = () => {
 // console.log(token());
 
 export const makeUserRequest = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
   withCredentials: true,
   headers: token(),
   signal: new AbortController().signal,
@@ -50,5 +50,5 @@ export const makeUserRequest = axios.create({
 // headers: { token: `Bearer ${TOKEN}` },
 
 export const makePublicRequest = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
 });

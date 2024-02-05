@@ -45,6 +45,7 @@ Dukaan is a full-stack MERN (MongoDB, Express.js, React, Node.js) eCommerce appl
 
 3. Create a .env file in the frontend directory and add the following variable:
    VITE_STRIPE_KEY=stripe secret key
+   VITE_SERVER_URL=backend server URL
 
 4. Start the frontend development server:npm run dev
 
