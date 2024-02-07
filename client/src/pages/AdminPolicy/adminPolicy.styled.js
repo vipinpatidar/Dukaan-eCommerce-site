@@ -58,6 +58,7 @@ export const BtnDiv = styled.div`
   gap: 2rem;
   background-color: #ddd;
   padding: 12px 8px;
+  text-transform: uppercase;
   ${mobile({ padding: "8px", gap: "1rem" })}
 
   & h2 {

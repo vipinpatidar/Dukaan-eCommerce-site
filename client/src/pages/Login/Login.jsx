@@ -13,7 +13,6 @@ import {
 import { makePublicRequest } from "../../utils/axios";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/slice/userSlice";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = ({ setAutoLogout }) => {
   const [inputs, setInputs] = useState({
@@ -23,8 +22,6 @@ const Login = ({ setAutoLogout }) => {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { state } = useLocation();
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -55,7 +52,7 @@ const Login = ({ setAutoLogout }) => {
 
         setAutoLogout(remainingMilliseconds);
 
-        navigate(state?.path || "/", { replace: true });
+        window.location.href = "/";
         setError(null);
         setInputs({
           identity: "",

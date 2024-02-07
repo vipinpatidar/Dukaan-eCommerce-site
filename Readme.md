@@ -1,5 +1,9 @@
 # Dukaan - Full Stack MERN eCommerce App
 
+## Live Preview here
+
+Dukaan - https://dukaan-ecommerce-vipin.netlify.app
+
 Dukaan is a full-stack MERN (MongoDB, Express.js, React, Node.js) eCommerce application that allows users to buy and sell products. The frontend is built with Vite React, providing a fast and efficient user experience. Users can browse products, select size and color options, add items to their cart, and seamlessly make purchases.
 
 ## Features
