@@ -19,7 +19,7 @@ const AdminPolicy = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user?.currentUser);
 
-  console.log(user?.isAdmin);
+  // console.log(user?.isAdmin);
 
   const payHandler = () => {
     navigate("/pay", { state: 1000 });
