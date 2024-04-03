@@ -16,11 +16,24 @@ export const Title = styled.h1`
 export const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-inline: 2rem;
+  margin-bottom: 50px;
+
+  ${mobile({ paddingInline: "0.5rem" })}
 `;
 
 export const Filter = styled.div`
   margin: 20px 6px;
-  ${mobile({ margin: "0px 20px", display: "flex", flexDirection: "column" })}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${mobile({
+    margin: "0px 20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "normal",
+  })}
 `;
 
 export const FilterText = styled.span`
@@ -36,4 +49,23 @@ export const Select = styled.select`
   outline: none;
   ${mobile({ margin: "10px 0px" })}
 `;
-export const Option = styled.option``;
+export const Option = styled.option`
+  padding: 5px 10px;
+`;
+
+export const Button = styled.button`
+  text-align: center;
+  display: block;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  background: #111;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  cursor: pointer;
+  width: max-content;
+`;

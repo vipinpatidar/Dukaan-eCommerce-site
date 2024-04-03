@@ -43,12 +43,15 @@ const AdminUpdateModel = ({ onClose, product }) => {
 
   const arrayInputsChangeHandler = (e) => {
     const { name, value } = e.target;
-    setArrayInputs((prevState) => ({ ...prevState, [name]: value.split(",") }));
+    setArrayInputs((prevState) => ({
+      ...prevState,
+      [name]: value.split(",").map((v) => v.trim()),
+    }));
   };
 
   // Update user in backend
 
-  const mutation = useMutation(
+  const { mutate, isLoading } = useMutation(
     (productData) => {
       return makeUserRequest.put(
         `/products/update/${product?._id}`,
@@ -74,7 +77,7 @@ const AdminUpdateModel = ({ onClose, product }) => {
       };
       console.log(productData);
 
-      mutation.mutate(productData);
+      mutate(productData);
     } catch (err) {
       console.log(err);
       setError(err?.response?.data.error);
@@ -164,8 +167,8 @@ const AdminUpdateModel = ({ onClose, product }) => {
                 {error}
               </p>
             )}
-            <Button disabled={processing}>
-              {processing ? "Processing..." : "UPDATE"}
+            <Button disabled={isLoading || processing}>
+              {isLoading || processing ? "Processing..." : "UPDATE"}
             </Button>
           </Form>
         </Wrapper>

@@ -17,7 +17,7 @@ import {
 import { Badge } from "@mui/material";
 import { Search, ShoppingCartOutlined, Menu } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchCategory from "../SearchCategory/SearchCategory";
 
 const Navbar = ({ logoutHandler }) => {
@@ -27,6 +27,29 @@ const Navbar = ({ logoutHandler }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [isDown, setIsDown] = useState("translateY(0)");
+  const [lastPosition, setLastPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        if (window.scrollY < lastPosition) {
+          setIsDown("translateY(0)");
+        } else if (window.scrollY > lastPosition) {
+          setIsDown("translateY(-100%)");
+        }
+      } else {
+        setIsDown("translateY(0)");
+      }
+      setLastPosition(window.scrollY);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastPosition]);
 
   const closeOpenMenu = () => {
     setIsOpen((preState) => !preState);
@@ -45,7 +68,7 @@ const Navbar = ({ logoutHandler }) => {
   };
 
   return (
-    <Container>
+    <Container $translateY={isDown}>
       <Wrapper>
         <Left>
           <Language>EN</Language>
@@ -93,13 +116,22 @@ const Navbar = ({ logoutHandler }) => {
                     Wishlist
                   </MenuLink>
                 )}
-                {isLoggedIn && user?.isAdmin && (
+                {isLoggedIn && (
+                  <MenuLink onClick={closeOpenMenu} to={"/orderStatus"}>
+                    Orders
+                  </MenuLink>
+                )}
+                {isLoggedIn && user?.isAdmin ? (
                   <MenuLink
                     onClick={closeOpenMenu}
                     to={"/profile"}
                     state={{ isAdmin: true }}
                   >
-                    Admin
+                    Admin Dash
+                  </MenuLink>
+                ) : (
+                  <MenuLink onClick={closeOpenMenu} to={"/profile"}>
+                    Profile
                   </MenuLink>
                 )}
                 {isLoggedIn ? (

@@ -6,17 +6,26 @@ import {
   Title,
   Desc,
 } from "./newsLetter.styled";
-import { Send } from "@mui/icons-material";
+import { Email, ShoppingBag } from "@mui/icons-material";
 
 const NewsLetter = () => {
   return (
     <Container>
-      <Title>Newsletter</Title>
-      <Desc>Get timely updates from your favorite products.</Desc>
+      <Title>
+        <span>
+          <ShoppingBag />
+        </span>{" "}
+        Newsletter
+      </Title>
+      <Desc>Get Best Offer And Updates.</Desc>
+      <p>
+        With the help of our Newsletter get our best offers and stay updated on
+        our products and services.
+      </p>
       <InputContainer>
-        <Input placeholder="Your email" />
+        <Input placeholder="Enter Your Email Address" />
         <Button>
-          <Send />
+          <Email />
         </Button>
       </InputContainer>
     </Container>

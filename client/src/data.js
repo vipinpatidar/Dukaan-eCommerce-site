@@ -38,8 +38,8 @@ export const categories = [
   {
     id: 1,
     img: men,
-    title: "MAN",
-    category: "man",
+    title: "MEN",
+    category: "men",
   },
   {
     id: 2,
@@ -50,20 +50,20 @@ export const categories = [
   {
     id: 3,
     img: tshirt,
-    title: "T-SHIRTS",
-    category: "tshirt",
+    title: "Topwear",
+    category: "topwear",
   },
   {
     id: 4,
     img: footwear,
     title: "FOOTWEARS",
-    category: "shoes",
+    category: "footwear",
   },
   {
     id: 5,
     img: accessories,
     title: "ACCESSORIES",
-    category: "watch",
+    category: "accessories",
   },
 ];
 

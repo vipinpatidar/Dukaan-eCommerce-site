@@ -41,7 +41,10 @@ const Wishlist = () => {
     <Container>
       <Heading>Your Wishlist</Heading>
       {error && <h2>{error?.response?.data?.error || error.message}</h2>}
-      {!isLoading && <Products isWishlist={true} wishlist={wishlist} />}
+      {isLoading && <h2 className="loadingContainer">Loading...</h2>}
+      {!isLoading && wishlist && (
+        <Products isWishlist={true} wishlist={wishlist} />
+      )}
     </Container>
   );
 };

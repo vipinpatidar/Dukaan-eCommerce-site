@@ -43,12 +43,15 @@ const AddProductModal = ({ onClose, user }) => {
 
   const arrayInputsChangeHandler = (e) => {
     const { name, value } = e.target;
-    setArrayInputs((prevState) => ({ ...prevState, [name]: value.split(",") }));
+    setArrayInputs((prevState) => ({
+      ...prevState,
+      [name]: value.split(",").map((v) => v.trim()),
+    }));
   };
 
   // Update user in backend
 
-  const mutation = useMutation(
+  const { mutate, isLoading } = useMutation(
     (productData) => {
       return makeUserRequest.post(`/products/add`, productData);
     },
@@ -63,6 +66,7 @@ const AddProductModal = ({ onClose, user }) => {
 
   const updateProductHandler = async (downloadURL = null) => {
     try {
+      setProcessing(true);
       const productData = {
         ...inputs,
         ...arrayInputs,
@@ -71,7 +75,7 @@ const AddProductModal = ({ onClose, user }) => {
       };
       console.log(productData);
 
-      mutation.mutate(productData);
+      mutate(productData);
     } catch (err) {
       console.log(err);
       setError(err?.response?.data.error);
@@ -161,8 +165,8 @@ const AddProductModal = ({ onClose, user }) => {
                 {error}
               </p>
             )}
-            <Button disabled={processing}>
-              {processing ? "Processing..." : "UPDATE"}
+            <Button disabled={isLoading || processing}>
+              {isLoading || processing ? "Processing..." : "UPDATE"}
             </Button>
           </Form>
         </Wrapper>

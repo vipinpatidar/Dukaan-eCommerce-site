@@ -25,3 +25,29 @@ export const Button = styled.button`
   font-size: 15px;
   cursor: pointer;
 `;
+
+export const GuideContainer = styled.div`
+  padding: 1rem 2.2rem;
+
+  ${tab({ padding: "1rem" })}
+
+  .guideHeading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: green;
+  }
+
+  .guideItems {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 1.3rem;
+    padding-right: 1rem;
+
+    & li {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+  }
+`;

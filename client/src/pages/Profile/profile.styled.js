@@ -4,15 +4,24 @@ import { mobile } from "../../responsive";
 export const Container = styled.div`
   max-width: 1000px;
   margin: 0px auto;
+
+  .page-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 30px;
+  }
 `;
 
 export const NavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 7rem;
-  margin: 30px auto 0px;
-  ${mobile({ gap: "4rem" })}
+  margin: 40px auto 0px;
+  ${mobile({ gap: "2rem" })}
 `;
 
 export const Button = styled.button`

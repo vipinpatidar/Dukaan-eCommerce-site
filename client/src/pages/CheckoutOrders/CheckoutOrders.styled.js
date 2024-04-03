@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile } from "../../responsive";
 // import { Link } from "react-router-dom";
 
 export const Container = styled.div`
@@ -18,7 +19,7 @@ export const Container = styled.div`
   }
   & p {
     margin-bottom: 30px;
-    max-width: 600px;
+    max-width: 400px;
     line-height: 25px;
   }
 
@@ -31,10 +32,11 @@ export const Container = styled.div`
   }
 `;
 export const Form = styled.form`
-  padding: 1.6rem;
+  padding: 1rem;
   border-radius: 3px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  max-width: 450px;
+  width: 460px;
+  ${mobile({ width: "90%" })}
 `;
 
 export const Button = styled.button`
@@ -50,4 +52,42 @@ export const Button = styled.button`
   margin-top: 20px;
   letter-spacing: 1px;
   cursor: pointer;
+`;
+
+export const InputsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0;
+`;
+
+export const InputDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+`;
+
+export const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+
+  & p {
+    margin-bottom: 0;
+    color: #111;
+  }
+`;
+
+export const Input = styled.input`
+  padding: 10px 10px;
+  outline: none;
+  border: 1px solid gray;
+  width: 100%;
+
+  &:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
 `;

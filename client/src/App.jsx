@@ -10,7 +10,7 @@ import SingleProductPage from "./pages/SingleProductPage/SingleProductPage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Cart from "./pages/Cart/Cart";
-import Success from "./pages/Success/Success";
+// import Success from "./pages/Success/Success";
 import RequireAuth from "./CheckAuth/RequireAuth";
 import { useQuery } from "react-query";
 import { makeUserRequest, makePublicRequest } from "./utils/axios";
@@ -24,12 +24,19 @@ import AdminPaySuccess from "./pages/Success/AdminSuccess";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import { logoutUser } from "./redux/slice/userSlice";
 import { Navigate } from "react-router-dom";
+import OrderStatus from "./pages/OrdersStatus/OrderStatus";
+import OrderPayment from "./pages/CheckoutOrders/OrderPayment";
+import OrderHistory from "./pages/OrderHistory/OrderHistory";
+import ScrollToTop from "./components/OtherCompo/Navbar/ScrollToTop";
 
 const WrapperEle = ({ logoutHandler }) => {
   return (
     <>
       <Navbar logoutHandler={logoutHandler} />
-      <Outlet />
+      <ScrollToTop />
+      <div className="topContainerOfPages">
+        <Outlet />
+      </div>
       <NewsLetter />
       <Footer />
     </>
@@ -174,10 +181,26 @@ function App() {
           ),
         },
         {
-          path: "/success",
+          path: "/cartOrderPayment",
           element: (
             <RequireAuth>
-              <Success />
+              <OrderPayment />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: "/orderStatus",
+          element: (
+            <RequireAuth>
+              <OrderStatus />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: "/previous-orders",
+          element: (
+            <RequireAuth>
+              <OrderHistory />
             </RequireAuth>
           ),
         },

@@ -2,32 +2,49 @@ import styled from "styled-components";
 import { mobile, tab } from "../../../responsive";
 
 export const Container = styled.div`
-  background-color: #f9f5f6;
+  background-color: rgb(229 231 235);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 55vh;
+  height: 52vh;
   padding: 10px;
-  ${tab({ height: "40vh" })}
-  ${mobile({ height: "35vh" })}
+  ${tab({ height: "32vh" })}
+  ${mobile({ height: "42vh" })}
+
+  & p {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+  }
 `;
 export const Title = styled.h1`
-  font-size: 70px;
-  margin-bottom: 20px;
-  ${mobile({ fontSize: "50px" })}
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8710d8;
+  ${mobile({ fontSize: "24px" })}
+
+  & span {
+    color: #333;
+    margin-top: 2px;
+  }
 `;
 
 export const Desc = styled.div`
-  font-size: 24px;
-  font-weight: 300;
-  margin-bottom: 20px;
-  ${mobile({ textAlign: "center", fontSize: "20px" })}
+  font-size: 40px;
+  font-weight: 500;
+  color: #333;
+  ${mobile({ textAlign: "center", fontSize: "35px" })}
 `;
 
 export const InputContainer = styled.div`
   width: 50%;
-  height: 40px;
+  height: 48px;
   background-color: white;
   display: flex;
   justify-content: space-between;
@@ -37,9 +54,11 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
   border: none;
-  flex: 8;
-  padding-left: 15px;
+  flex: 9;
+  padding: 15px 15px;
   outline: none;
+  ${tab({ flex: "5" })}
+  ${mobile({ flex: "6" })}
 `;
 
 export const Button = styled.button`

@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 export const Container = styled.div`
   flex: 1;
   min-width: 280px;
-  height: 400px;
+  height: 380px;
   position: relative;
-  ${tab({ height: "360px", maxWidth: "250px" })}
+  border: 1px solid #444;
+  ${tab({ height: "320px", minWidth: "240px" })}
 `;
 
 export const Image = styled.img`

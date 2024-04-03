@@ -10,6 +10,7 @@ const Categories = () => {
   return (
     <Draggable categoriesRef={categoriesRef}>
       <Container ref={categoriesRef} className="categories">
+        <h1 className="categoriesHeading">Categories</h1>
         {categories.map((item) => (
           <CategoryItem item={item} key={item.id} />
         ))}

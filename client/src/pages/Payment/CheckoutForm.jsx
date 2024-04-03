@@ -47,8 +47,6 @@ const CheckOutForm = () => {
   const handlePaySubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("clicked");
-
       if (!stripe || !elements) {
         return;
       }
@@ -67,7 +65,6 @@ const CheckOutForm = () => {
       }
       if (!error) {
         elements.getElement(PaymentElement).clear();
-        console.log("Payment success");
         await makeAdminHandler();
         setLocate(true);
       }

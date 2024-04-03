@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { makeUserRequest } from "../../../utils/axios";
 import AdminProduct from "../AdminProduct/AdminProduct";
-import { Button, Container } from "./adminProducts.styled";
+import { Button, Container, GuideContainer } from "./adminProducts.styled";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import AddProductModal from "../AddProductModal copy/AddProductModal";
@@ -52,8 +52,39 @@ const AdminProducts = () => {
 
   return (
     <>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "2rem",
+        }}
+      >
         <Button onClick={closeOpenHandler}>Add Your Product</Button>
+        <GuideContainer>
+          <h2 className="guideHeading">
+            Please consider the following guidelines to ensure easy access to
+            your product for users.
+          </h2>
+          <ul className="guideItems">
+            <li>
+              Please fill in Categories, Size, and Color with comma-separated
+              values, like this: footwear,men or 8,9,10 or black,white,red.
+            </li>
+            <li>Use women or men as spelling in categories</li>
+            <li>
+              Choose a suitable category from the given options: men, women,
+              footwear, accessories and topwear according to your product.
+            </li>
+            <li>
+              For example, if you are adding a t-shirt, then fill in the
+              categories as follows: (t-shirt,women,topwear) or
+              (t-shirt,men,topwear). If the product can be worn or used by
+              anyone, use the category all as well (e.g., t-shirt,all,topwear).
+            </li>
+          </ul>
+        </GuideContainer>
       </div>
       <Container>
         {isOpen && <AddProductModal onClose={closeOpenHandler} user={user} />}

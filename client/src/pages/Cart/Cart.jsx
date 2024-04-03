@@ -34,17 +34,15 @@ import {
 } from "./cart.styled";
 
 import { useSelector } from "react-redux";
-import StripeCheckout from "react-stripe-checkout";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { makeUserRequest } from "../../utils/axios";
 
-const KEY = import.meta.env.VITE_STRIPE_KEY;
+// const KEY = import.meta.env.VITE_STRIPE_KEY;
 
 const Cart = ({ isLoading, error, carts }) => {
-  const [stripeToken, setStripeToken] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const cart = useSelector((state) => state.cart);
@@ -71,10 +69,6 @@ const Cart = ({ isLoading, error, carts }) => {
       } else if (button.type === "delete") {
         return makeUserRequest.delete(
           `/carts/delete/${button.product.userId}/${button.product.prodCartId}`
-        );
-      } else if (button.type === "clearCart") {
-        return makeUserRequest.delete(
-          `/carts/clearCart/${button.product.userId}`
         );
       }
     },
@@ -121,44 +115,19 @@ const Cart = ({ isLoading, error, carts }) => {
   }, [carts, isLoading]);
 
   /*============= PAYMENT ====================== */
-  const onToken = (token) => {
-    setStripeToken(token);
+
+  const makePayment = async () => {
+    try {
+      navigate("/cartOrderPayment", {
+        state: {
+          products: carts,
+          amount: totalPrice,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  useEffect(() => {
-    const makePayment = async () => {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_SERVER_URL}/api/checkout/payment`,
-          {
-            amount: totalPrice * 100,
-          }
-        );
-
-        mutation.mutate({
-          type: "clearCart",
-          product: {
-            userId: carts?.userId,
-          },
-        });
-
-        console.log(response.data);
-        navigate("/success", {
-          state: {
-            stripeData: response.data,
-            products: carts,
-            amount: totalPrice,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    stripeToken && makePayment();
-    //eslint-disable-next-line
-  }, [stripeToken, navigate, totalPrice, carts]);
-
   // console.log(carts);
 
   return (
@@ -166,7 +135,7 @@ const Cart = ({ isLoading, error, carts }) => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton to={-1}>CONTINUE SHOPPING</TopButton>
+          <TopButton to={"/products"}>CONTINUE SHOPPING</TopButton>
           <TopTexts>
             <TopText>Shopping Bag({cart?.totalProducts})</TopText>
             <WishText to={"/wishlist"}>Your Wishlist</WishText>
@@ -246,18 +215,7 @@ const Cart = ({ isLoading, error, carts }) => {
                 <SummaryItemPrice>$ {totalPrice}</SummaryItemPrice>
               </SummaryItem>
               {/* ====== STRIPE PAYMENT ======= */}
-              <StripeCheckout
-                name="Dukaan"
-                image="https://img.freepik.com/free-vector/shop-with-sign-we-are-open_52683-38687.jpg"
-                billingAddress
-                shippingAddress
-                description={`Your total shipping is $${totalPrice}`}
-                amount={totalPrice * 100}
-                token={onToken}
-                stripeKey={KEY}
-              >
-                <Button>CHECKOUT NOW</Button>
-              </StripeCheckout>
+              <Button onClick={makePayment}>CHECKOUT NOW</Button>
             </Summary>
           </Bottom>
         ) : (

@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
-import { Container } from "./payment.styled";
+import { Container } from "./CheckoutOrders.styled.js";
 import { loadStripe } from "@stripe/stripe-js";
 import { makeUserRequest } from "../../utils/axios";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckOutForm from "./CheckoutForm";
+import OrderCheckoutForm from "./OrderCheckoutForm";
 import { useLocation } from "react-router-dom";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
-const Payment = () => {
+const OrderPayment = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [message, setMessage] = useState(null);
   const location = useLocation();
-  const amount = location?.state;
+  const amount = location?.state?.amount;
+  const products = location?.state?.products;
 
-  // console.log(amount);
+  // console.log(amount, products);
 
   useEffect(() => {
     const makePayment = async () => {
@@ -32,15 +33,12 @@ const Payment = () => {
     makePayment();
   }, [amount]);
 
-  // console.log(clientSecret);
-
   return (
     <Container>
       <h1>Pay here</h1>
       <p>
-        <span>NOTE: </span> After Payment you will be redirect to Login page.
-        Please Login Again, Than check Admin Page for adding your products on
-        this platform. Thank you :)
+        <span>NOTE: </span> Please enter the following details and then use this
+        test card number: 4242 4242 4242 4242
       </p>
       {message && (
         <p
@@ -59,11 +57,11 @@ const Payment = () => {
           key={clientSecret}
           options={{ clientSecret }}
         >
-          <CheckOutForm />
+          <OrderCheckoutForm amount={amount} products={products} />
         </Elements>
       )}
     </Container>
   );
 };
 
-export default Payment;
+export default OrderPayment;

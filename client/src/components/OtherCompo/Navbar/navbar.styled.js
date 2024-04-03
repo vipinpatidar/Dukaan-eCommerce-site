@@ -5,7 +5,14 @@ import { Link } from "react-router-dom";
 export const Container = styled.div`
   height: 74px;
   border-bottom: 2px solid #eee;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+  transform: ${(props) => props.$translateY};
+  transition: all 200ms ease-in-out;
   padding: 6px;
   ${mobile({ height: "66px", padding: "6px 4px" })}
 `;

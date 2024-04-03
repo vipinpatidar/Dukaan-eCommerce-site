@@ -9,7 +9,6 @@ const orderSchema = new Schema(
       required: true,
       ref: "User",
     },
-
     products: [
       {
         productId: {
@@ -17,10 +16,33 @@ const orderSchema = new Schema(
           required: true,
           ref: "Product",
         },
-
+        color: {
+          type: String,
+          required: true,
+        },
+        size: {
+          type: String,
+          required: true,
+        },
         quantity: {
           type: Number,
           default: 1,
+        },
+        status: {
+          type: String,
+          enum: [
+            "Order Placed",
+            "Processing",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered",
+            "Cancelled",
+            "Returned",
+            "Refunded",
+          ],
+        },
+        returnedDate: {
+          type: Date,
         },
       },
     ],
@@ -29,12 +51,18 @@ const orderSchema = new Schema(
       required: true,
     },
     address: {
-      type: Object,
+      type: String,
       required: true,
     },
-    status: {
+    orderDate: {
+      type: Date,
+      default: Date.now(),
+    },
+    phone: {
       type: String,
-      default: "pending",
+    },
+    pin: {
+      type: String,
     },
   },
   { timestamps: true }

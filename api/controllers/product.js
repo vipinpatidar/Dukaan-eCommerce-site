@@ -59,7 +59,11 @@ export const getAllProduct = async (req, res, next) => {
       categoryQuery !== false;
 
     if (notCategoryQuery) {
-      query.categories = { $in: [categoryQuery] };
+      const regex = new RegExp(categoryQuery, "i");
+      query.$or = [
+        { categories: { $in: [regex] } },
+        { title: { $regex: regex } },
+      ];
     }
 
     const notSortQuery =

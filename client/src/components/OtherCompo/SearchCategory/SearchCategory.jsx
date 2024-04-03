@@ -17,11 +17,18 @@ const SearchCategory = ({ searchQuery, setSearchQuery, setIsOpenSearch }) => {
     const res = await makePublicRequest.get(`/products/all`);
     return res.data;
   });
-
+  // console.log(data);
   // filter categories from products
 
   const categories = [
     ...new Set(data?.map((category) => category.categories).flat(1)),
+  ].filter(
+    (category) =>
+      category.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      searchQuery !== ""
+  );
+  const title = [
+    ...new Set(data?.map((category) => category.title).flat(1)),
   ].filter(
     (category) =>
       category.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -52,8 +59,8 @@ const SearchCategory = ({ searchQuery, setSearchQuery, setIsOpenSearch }) => {
             <h2>{error?.response?.data?.error || error.message}</h2>
           </SearchedItem>
         )}
-        {categories.length > 0 ? (
-          categories.map((category, index) => (
+        {[...categories, ...title].length > 0 ? (
+          [...categories, ...title].map((category, index) => (
             <SearchedItem
               key={index}
               onClick={() => showCategoryHandler(category)}

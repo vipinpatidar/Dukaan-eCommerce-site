@@ -8,6 +8,7 @@ import {
   Select,
   Option,
   FilterText,
+  Button,
 } from "./productsListPage.styled";
 import { useState } from "react";
 
@@ -30,13 +31,22 @@ const ProductsListPage = () => {
     setSortPrice(e.target.value);
   };
 
+  const resetFilters = () => {
+    setFilter({});
+    setSortPrice("newest");
+  };
+
   return (
     <Container>
       <Title>{category ? category : "All Products"}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select defaultValue="default" name="color" onChange={filterHandler}>
+          <Select
+            value={filter.color || "default"}
+            name="color"
+            onChange={filterHandler}
+          >
             <Option disabled value="default">
               Color
             </Option>
@@ -48,8 +58,13 @@ const ProductsListPage = () => {
             <Option>Green</Option>
             <Option>Brown</Option>
             <Option>Gray</Option>
+            <Option>Orange</Option>
           </Select>
-          <Select defaultValue="default" name="size" onChange={filterHandler}>
+          <Select
+            value={filter.size || "default"}
+            name="size"
+            onChange={filterHandler}
+          >
             <Option disabled value="default">
               Size
             </Option>
@@ -58,19 +73,34 @@ const ProductsListPage = () => {
             <Option>M</Option>
             <Option>L</Option>
             <Option>XL</Option>
+            <Option>7</Option>
+            <Option>8</Option>
+            <Option>9</Option>
+            <Option>10</Option>
+          </Select>
+          <Select
+            value={filter.categories || "default"}
+            name="categories"
+            onChange={filterHandler}
+          >
+            <Option disabled value="default">
+              Categories
+            </Option>
+            <Option>Men</Option>
+            <Option>Women</Option>
+            <Option>Accessories</Option>
+            <Option>Footwear</Option>
+            <Option>All</Option>
           </Select>
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select
-            defaultValue="default"
-            name="order"
-            onChange={sortPriceHandler}
-          >
-            <Option value="default">Newest</Option>
+          <Select value={sortPrice} name="order" onChange={sortPriceHandler}>
+            <Option value="newest">Newest</Option>
             <Option value="1">Price (asc)</Option>
             <Option value="-1">Price (desc)</Option>
           </Select>
+          <Button onClick={resetFilters}>Reset Filters</Button>
         </Filter>
       </FilterContainer>
       <Products
