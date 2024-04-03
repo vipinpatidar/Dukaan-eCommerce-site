@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { makePublicRequest } from "../../../utils/axios";
 import ProductItem from "../ProductItem/ProductItem";
-import { Container } from "./products.styled";
+import { Container, SeeMoreBtn } from "./products.styled";
 import { useQuery } from "react-query";
 
 const Products = ({
@@ -60,39 +60,44 @@ const Products = ({
   }
 
   return (
-    <Container>
-      {!isWishlist && !isHome ? (
-        filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+    <>
+      <Container>
+        {!isWishlist && !isHome ? (
+          filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductItem product={product} key={product._id} />
+            ))
+          ) : (
+            <div className="loadingContainer">
+              <h1>No Product Found.</h1>
+            </div>
+          )
+        ) : !isWishlist && isHome && data ? (
+          data.length > 0 ? (
+            data
+              .slice(0, 8)
+              .map((product) => (
+                <ProductItem product={product} key={product._id} />
+              ))
+          ) : (
+            <div className="loadingContainer">
+              <h1>No Product Found.</h1>
+            </div>
+          )
+        ) : wishlist && wishlist?.length > 0 ? (
+          wishlist.map((product) => (
             <ProductItem product={product} key={product._id} />
           ))
         ) : (
           <div className="loadingContainer">
             <h1>No Product Found.</h1>
           </div>
-        )
-      ) : !isWishlist && isHome && data ? (
-        data.length > 0 ? (
-          data
-            .slice(0, 8)
-            .map((product) => (
-              <ProductItem product={product} key={product._id} />
-            ))
-        ) : (
-          <div className="loadingContainer">
-            <h1>No Product Found.</h1>
-          </div>
-        )
-      ) : wishlist && wishlist?.length > 0 ? (
-        wishlist.map((product) => (
-          <ProductItem product={product} key={product._id} />
-        ))
-      ) : (
-        <div className="loadingContainer">
-          <h1>No Product Found.</h1>
-        </div>
+        )}
+      </Container>
+      {!isWishlist && isHome && data && (
+        <SeeMoreBtn to={"/products"}>See More Products</SeeMoreBtn>
       )}
-    </Container>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import Categories from "../../components/HomeCompo/Categories/Categories";
 import Products from "../../components/HomeCompo/Products/Products";
 import Slider from "../../components/HomeCompo/Slider/Slider";
 import { useSelector } from "react-redux";
-import { HeadingDiv, ProdDiv, SeeMoreBtn } from "./home.styled";
+import { HeadingDiv, ProdDiv } from "./home.styled";
 
 const Home = () => {
   const [isOpen, setOpen] = useState(true);
@@ -33,7 +33,6 @@ const Home = () => {
       </HeadingDiv>
       <ProdDiv>
         <Products isWishlist={false} isHome={true} />
-        <SeeMoreBtn to={"/products"}>See More Products</SeeMoreBtn>
       </ProdDiv>
     </div>
   );
