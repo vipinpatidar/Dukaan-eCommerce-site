@@ -146,14 +146,14 @@ export const ProductAmount = styled.div`
 export const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
+  margin-bottom: 20px;
+  ${tab({ marginBottom: "0px" })}
 `;
 export const ProductDelete = styled.div`
   width: 20px;
   height: 26px;
   color: red;
   cursor: pointer;
-  ${mobile({ marginBottom: "20px" })}
 `;
 
 export const Hr = styled.hr`

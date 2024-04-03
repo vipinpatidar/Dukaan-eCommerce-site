@@ -10,13 +10,13 @@ const queryClient = new QueryClient();
 import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <PersistGate loading={null} persistor={persistor}>
         <React.StrictMode>
           <App />
         </React.StrictMode>
       </PersistGate>
-    </Provider>
-  </QueryClientProvider>
+    </QueryClientProvider>
+  </Provider>
 );

@@ -25,7 +25,9 @@ const OrderCheckoutForm = ({ amount, products }) => {
   const [locate, setLocate] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  console.log(currentUser);
+
+  // console.log(currentUser);
+
   const [orderData, setOrderData] = useState({
     name: `${currentUser?.firstName} ${currentUser?.lastName}`,
     email: currentUser?.email,
@@ -46,22 +48,14 @@ const OrderCheckoutForm = ({ amount, products }) => {
     setOrderData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const { mutate } = useMutation(
-    (data) => {
-      return makeUserRequest.delete(`/carts/clearCart/${data}`);
-    },
-    {
-      onSuccess: () => {
-        dispatch(addToCart({ totalProds: 0 }));
-        queryClient.invalidateQueries("cart");
-      },
-    }
-  );
+  const { mutate } = useMutation((data) => {
+    return makeUserRequest.delete(`/carts/clearCart/${data}`);
+  });
 
   // if Payment successful post order
   const makeOrderHandler = async () => {
     try {
-      const res = await makeUserRequest.post("/orders/add", {
+      await makeUserRequest.post("/orders/add", {
         userId: currentUser._id,
         products: products?.cartProducts.map((item) => ({
           productId: item._id,
@@ -76,7 +70,6 @@ const OrderCheckoutForm = ({ amount, products }) => {
         pin: orderData.pin,
         orderDate: Date.now(),
       });
-      console.log(res.data);
     } catch (error) {
       console.log(error);
       throw error;
@@ -116,6 +109,7 @@ const OrderCheckoutForm = ({ amount, products }) => {
       if (!error) {
         elements.getElement(PaymentElement).clear();
         await makeOrderHandler();
+        await mutate(currentUser._id);
         setLocate(true);
       }
 
@@ -131,7 +125,8 @@ const OrderCheckoutForm = ({ amount, products }) => {
 
   useEffect(() => {
     if (locate === true) {
-      mutate(currentUser._id);
+      dispatch(addToCart({ totalProds: 0 }));
+      queryClient.invalidateQueries("cart");
       navigate("/orderStatus");
     }
     //eslint-disable-next-line

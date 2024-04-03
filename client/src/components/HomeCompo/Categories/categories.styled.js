@@ -20,7 +20,7 @@ export const Container = styled.div`
 
   .categoriesHeading {
     min-width: 230px;
-    font-size: 28px;
+    font-size: 30px;
     color: #fff;
     font-weight: 600;
     text-align: center;
