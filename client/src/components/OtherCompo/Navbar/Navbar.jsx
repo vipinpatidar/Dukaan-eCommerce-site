@@ -130,9 +130,11 @@ const Navbar = ({ logoutHandler }) => {
                     Admin Dash
                   </MenuLink>
                 ) : (
-                  <MenuLink onClick={closeOpenMenu} to={"/profile"}>
-                    Profile
-                  </MenuLink>
+                  isLoggedIn && (
+                    <MenuLink onClick={closeOpenMenu} to={"/profile"}>
+                      Profile
+                    </MenuLink>
+                  )
                 )}
                 {isLoggedIn ? (
                   <MenuLink onClick={handleLogout}>Logout</MenuLink>
