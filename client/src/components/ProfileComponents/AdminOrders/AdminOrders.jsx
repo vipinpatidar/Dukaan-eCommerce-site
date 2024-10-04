@@ -37,10 +37,10 @@ const AdminOrders = ({ user }) => {
     <Container>
       {isLoading && <h4 className="loadingContainer">Loading...</h4>}
 
-      <div style={{ width: "100%" }}>
-        {adminOrdersInfo &&
-          adminOrdersInfo.orders &&
-          adminOrdersInfo.orders?.length > 0 && (
+      {adminOrdersInfo &&
+        adminOrdersInfo.orders &&
+        adminOrdersInfo.orders?.length > 0 && (
+          <div style={{ width: "100%" }}>
             <div>
               <div>
                 {adminOrdersInfo.orders.map((order, index) => (
@@ -52,8 +52,8 @@ const AdminOrders = ({ user }) => {
                 ))}
               </div>
             </div>
-          )}
-      </div>
+          </div>
+        )}
 
       {adminOrdersInfo && adminOrdersInfo.totalPage > 1 && (
         <PaginationContainer>
@@ -66,13 +66,22 @@ const AdminOrders = ({ user }) => {
                 $bgColor={number === page ? "#1A2634" : "none"}
                 $color={number === page ? "#fff" : "#1A2634"}
                 key={number}
-                onClick={() => setPage(number)}
+                onClick={() => {
+                  setPage(number);
+                  window.scrollTo(0, 200);
+                }}
               >
                 {number}
               </PaginationItem>
             ))}
           </ul>
         </PaginationContainer>
+      )}
+
+      {adminOrdersInfo.length === 0 && !isLoading && (
+        <div className="notFoundContainer">
+          <h1>No Order To Manage.</h1>
+        </div>
       )}
     </Container>
   );

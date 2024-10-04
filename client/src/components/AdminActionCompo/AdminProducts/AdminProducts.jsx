@@ -93,7 +93,7 @@ const AdminProducts = () => {
             <AdminProduct productItem={product} key={product._id} />
           ))
         ) : (
-          <div className="loadingContainer">
+          <div className="notFoundContainer">
             <h1>No Product found.</h1>
           </div>
         )}

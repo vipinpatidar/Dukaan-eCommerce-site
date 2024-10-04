@@ -121,7 +121,7 @@ const Cart = ({ isLoading, error, carts }) => {
       navigate("/cartOrderPayment", {
         state: {
           products: carts,
-          amount: totalPrice,
+          amount: totalPrice + 6,
         },
       });
     } catch (error) {
@@ -186,7 +186,9 @@ const Cart = ({ isLoading, error, carts }) => {
                         style={{ cursor: "pointer" }}
                       />
                     </ProductAmountContainer>
-                    <ProductPrice>$ {product.price}</ProductPrice>
+                    <ProductPrice>
+                      $ {product.price * product.quantity}
+                    </ProductPrice>
                     <ProductDelete>
                       <Delete
                         onClick={() => deleteOneProductHandler(product)}
@@ -204,15 +206,15 @@ const Cart = ({ isLoading, error, carts }) => {
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+                <SummaryItemPrice>$ 6</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+                <SummaryItemPrice>$ 0</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem $type="total">
                 <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>$ {totalPrice}</SummaryItemPrice>
+                <SummaryItemPrice>$ {totalPrice + 6}</SummaryItemPrice>
               </SummaryItem>
               {/* ====== STRIPE PAYMENT ======= */}
               <Button onClick={makePayment}>CHECKOUT NOW</Button>

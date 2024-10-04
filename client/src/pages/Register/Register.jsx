@@ -51,7 +51,7 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
-      const err = error.response.data.error;
+      const err = error?.response?.data?.error;
       setError(err);
     }
   };

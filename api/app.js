@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from "dotenv";
+import "dotenv/config";
 import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
@@ -13,7 +13,6 @@ import { orderRouter } from "./routes/order.js";
 import { stripeRoute } from "./routes/stripe.js";
 import { favoritesRouter } from "./routes/favorites.js";
 
-dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 

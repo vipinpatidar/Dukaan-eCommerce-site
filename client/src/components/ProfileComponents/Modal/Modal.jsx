@@ -8,6 +8,7 @@ import {
   Title,
   Button,
   Close,
+  ImgContainer,
 } from "./modal.styled";
 import {
   getStorage,
@@ -136,13 +137,20 @@ const Modal = ({ onClose, user }) => {
         <Wrapper>
           <Title>Update Your Account</Title>
           <Form onSubmit={handleClick}>
-            <Input
-              style={{ border: "none" }}
-              placeholder="Your image"
-              name="image"
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
+            <ImgContainer>
+              <Input
+                style={{ border: "none" }}
+                placeholder="Your image"
+                name="image"
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              {file ? (
+                <img src={URL.createObjectURL(file)} alt="preview" />
+              ) : (
+                <img src={user.profileImg} alt="original image" />
+              )}
+            </ImgContainer>
             <Input
               placeholder="first name"
               name="firstName"
@@ -177,6 +185,10 @@ const Modal = ({ onClose, user }) => {
               type="password"
               onChange={inputsChangeHandler}
               value={inputs.password}
+              disabled={
+                user?._id === "655df35adf171338654eff83" ||
+                user?._id === "65c0c292874d6141826e5299"
+              }
             />
             <Input
               placeholder="confirm updated password"
@@ -184,6 +196,10 @@ const Modal = ({ onClose, user }) => {
               type="password"
               onChange={inputsChangeHandler}
               value={inputs.conPassword}
+              disabled={
+                user?._id === "655df35adf171338654eff83" ||
+                user?._id === "65c0c292874d6141826e5299"
+              }
             />
             {error && (
               <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>

@@ -55,6 +55,8 @@ const SingleProductPage = () => {
 
   // ADD CART DATA TO BACKEND
 
+  // console.log(product);
+
   const mutation = useMutation(
     (product) => {
       // console.log(product);

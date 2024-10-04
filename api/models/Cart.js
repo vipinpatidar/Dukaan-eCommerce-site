@@ -20,8 +20,8 @@ const cartSchema = new Schema(
         description: {
           type: String,
         },
-        categories: {
-          type: Array,
+        productAdminId: {
+          type: Schema.Types.ObjectId,
         },
         image: {
           type: String,

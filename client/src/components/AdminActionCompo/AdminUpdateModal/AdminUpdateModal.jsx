@@ -8,6 +8,7 @@ import {
   Title,
   Button,
   Close,
+  ImgContainer,
 } from "./adminUpdateModal.styled";
 import { makeUserRequest } from "../../../utils/axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -45,7 +46,7 @@ const AdminUpdateModel = ({ onClose, product }) => {
     const { name, value } = e.target;
     setArrayInputs((prevState) => ({
       ...prevState,
-      [name]: value.split(",").map((v) => v.trim()),
+      [name]: value.split(",").map((v) => v.toLowerCase().trim()),
     }));
   };
 
@@ -89,6 +90,18 @@ const AdminUpdateModel = ({ onClose, product }) => {
   const handleClick = async (e) => {
     e.preventDefault();
 
+    if (
+      inputs.title === "" ||
+      inputs.description === "" ||
+      inputs.price === "" ||
+      arrayInputs.categories.length === 0 ||
+      arrayInputs.color.length === 0 ||
+      arrayInputs.size.length === 0
+    ) {
+      setError("Please fill all the fields");
+      return;
+    }
+
     try {
       setProcessing(true);
       await uploadImage(updateProductHandler, file);
@@ -110,15 +123,22 @@ const AdminUpdateModel = ({ onClose, product }) => {
         <Close onClick={onClose}>X</Close>
 
         <Wrapper>
-          <Title>Update Your Account</Title>
+          <Title>Update Your Product</Title>
           <Form onSubmit={handleClick}>
-            <Input
-              style={{ border: "none" }}
-              placeholder="Your image"
-              name="image"
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
+            <ImgContainer>
+              <Input
+                style={{ border: "none" }}
+                placeholder="Your image"
+                name="image"
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              {file ? (
+                <img src={URL.createObjectURL(file)} alt="product" />
+              ) : (
+                <img src={product?.image} alt="product" />
+              )}
+            </ImgContainer>
             <Input
               placeholder="Product Title"
               name="title"
@@ -142,25 +162,25 @@ const AdminUpdateModel = ({ onClose, product }) => {
               required
             />
             <Input
-              placeholder="Categories"
+              placeholder="Categories (eg. men, women, all, footwear, accessories)"
               name="categories"
               onChange={arrayInputsChangeHandler}
-              value={arrayInputs.categories.join(",")}
+              value={arrayInputs.categories.join(", ")}
               required
             />
             <Input
-              placeholder="Sizes"
+              placeholder="Sizes (eg. S, M, L, XL) Or (8, 9, 10, 11) or (fit loose)"
               name="size"
               type="text"
               onChange={arrayInputsChangeHandler}
-              value={arrayInputs.size.join(",")}
+              value={arrayInputs.size.join(", ")}
             />
             <Input
-              placeholder="Colors"
+              placeholder="Colors (eg. red, green, blue)"
               name="color"
               type="text"
               onChange={arrayInputsChangeHandler}
-              value={arrayInputs.color.join(",")}
+              value={arrayInputs.color.join(", ")}
             />
             {error && (
               <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>

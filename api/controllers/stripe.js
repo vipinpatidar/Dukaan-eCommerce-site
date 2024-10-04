@@ -1,8 +1,6 @@
 import Stripe from "stripe";
 
-const stripe = Stripe(
-  "sk_test_51NxkghSFVsf2tYsVsfSy8UdQ3bzbUICvDN2ib0qIfUIcHLmjtQaFT6LFIX8fWySG87HMvtuSJVELWi5vPtJH9Txz00j7GacYBN"
-);
+const stripe = Stripe(process.env.STRIPE_KEY);
 
 export const postStipeCharges = async (req, res) => {
   try {
@@ -15,6 +13,17 @@ export const postStipeCharges = async (req, res) => {
     const stripeResponse = await stripe.paymentIntents.create({
       amount: req.body.amount,
       currency: "inr",
+      description: "test payment of eCommerce app",
+      shipping: {
+        name: "vipin patidar",
+        address: {
+          line1: "510 Townsend St",
+          postal_code: "98140",
+          city: "San Francisco",
+          state: "CA",
+          country: "US",
+        },
+      },
       automatic_payment_methods: { enabled: true },
     });
 

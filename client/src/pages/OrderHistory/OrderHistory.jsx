@@ -73,7 +73,10 @@ const OrderHistory = () => {
                 $bgColor={number === page ? "#1A2634" : "none"}
                 $color={number === page ? "#fff" : "#1A2634"}
                 key={number}
-                onClick={() => setPage(number)}
+                onClick={() => {
+                  setPage(number);
+                  window.scrollTo(0, 100);
+                }}
               >
                 {number}
               </PaginationItem>

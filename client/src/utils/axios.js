@@ -23,32 +23,51 @@ const getToken = () => {
 };
 
 // Create a function to make requests with the Authorization header
-export const token = () => {
-  const tokenValue = getToken();
+// export const token = () => {
+//   const tokenValue = getToken();
 
-  const headers = {
-    "Content-Type": "application/json",
-  };
+//   const headers = {
+//     "Content-Type": "application/json",
+//   };
 
-  // Add Authorization header if a token is available
-  if (tokenValue) {
-    headers.Authorization = `Bearer ${tokenValue}`;
-  }
+//   // Add Authorization header if a token is available
+//   if (tokenValue) {
+//     headers.Authorization = `Bearer ${tokenValue}`;
+//   }
 
-  return headers;
-};
+//   return headers;
+// };
 
 // console.log(token());
 
 export const makeUserRequest = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
   withCredentials: true,
-  headers: token(),
+  // headers: token(),
   signal: new AbortController().signal,
 });
+
+makeUserRequest.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    config.headers["Content-Type"] = "application/json";
+
+    return config;
+  },
+
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // headers: { token: `Bearer ${TOKEN}` },
 
 export const makePublicRequest = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
+  headers: { "Content-Type": "application/json" },
+  signal: new AbortController().signal,
 });

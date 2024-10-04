@@ -21,6 +21,7 @@ export const NavContainer = styled.div`
   flex-wrap: wrap;
   gap: 7rem;
   margin: 40px auto 0px;
+  padding: 10px;
   ${mobile({ gap: "2rem" })}
 `;
 

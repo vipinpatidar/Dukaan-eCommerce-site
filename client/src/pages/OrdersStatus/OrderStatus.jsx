@@ -65,9 +65,15 @@ const OrderStatus = () => {
             </GreetHeader>
 
             <div>
-              {currentOrder.map((order, index) => (
-                <CurrentOrderCard order={order} key={order._id} index={index} />
-              ))}
+              {currentOrder?.map((order, index) => {
+                return (
+                  <CurrentOrderCard
+                    order={order}
+                    key={order?._id}
+                    index={index}
+                  />
+                );
+              })}
             </div>
           </div>
         ) : (

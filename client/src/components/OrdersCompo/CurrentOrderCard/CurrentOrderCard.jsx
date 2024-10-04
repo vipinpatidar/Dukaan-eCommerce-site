@@ -24,8 +24,6 @@ const CurrentOrderCard = ({ order, index }) => {
     UnKnown: "#17a2b8",
   };
 
-  // console.log(order);
-
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
@@ -44,13 +42,28 @@ const CurrentOrderCard = ({ order, index }) => {
     mutate(prodData);
   };
 
+  let totalAmount = 0;
+  for (let i = 0; i < order.products.length; i++) {
+    if (
+      order.products[i]?.productId &&
+      order.products[i]?.status !== "Cancelled"
+    ) {
+      totalAmount +=
+        order.products[i]?.productId?.price * order.products[i]?.quantity;
+    }
+  }
+
+  // console.log(totalAmount);
+
+  // console.log(order);
+
   return (
     <OrdersContainer $margin={index === 0 ? "20px" : "3rem"}>
       <OrderCount>Order No. {index + 1}</OrderCount>
       <OrdersHeader>
         <div className="orderId">
           <p>
-            Order Id: <span>#{order._id.slice(0, 20)}</span>
+            Order Id: <span>#{order?._id.slice(0, 20)}</span>
           </p>
           <p>
             Order Date:{" "}
@@ -91,80 +104,113 @@ const CurrentOrderCard = ({ order, index }) => {
       </OrdersHeader>
       {order.products &&
         order.products.length > 0 &&
-        order.products.map(
-          ({ productId: product, color, size, status, quantity, _id: id }) => (
-            <OrderProduct key={id}>
-              <div className="product">
-                <ProdLink to={`/product/${product._id}`}>
-                  <img src={product.image} alt={product.title} />
-                </ProdLink>
-                <div className="productInfo">
-                  <ProdLink to={`/product/${product._id}`} className="title">
-                    {product.title}
-                  </ProdLink>
-                  <p>
-                    Color: <span>{color}</span>
-                  </p>
-                  <p>
-                    Size: <span>{size}</span>
-                  </p>
-                  <p>
-                    Quantity: <span>{quantity}</span>
-                  </p>
-                  <p>
-                    Price: <span>${product.price}</span>
+        order?.products?.map(
+          ({ productId: product, color, size, status, quantity, _id: id }) => {
+            if (product === null) {
+              return (
+                <div
+                  key={id}
+                  style={{
+                    textAlign: "center",
+                    margin: "1.6rem auto 2rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.6rem",
+                  }}
+                >
+                  <h1
+                    style={{
+                      color: "red",
+                      fontSize: "1.2rem",
+                      marginBottom: "0rem",
+                    }}
+                  >
+                    This product is not available or deleted
+                  </h1>
+                  <p style={{ fontSize: "1.1rem" }}>
+                    Your refund amount will be transfer to your account soon
                   </p>
                 </div>
-                <h2 className="totalPrice">${product.price * quantity}</h2>
-              </div>
-              <div className="orderStatus">
-                <Status
-                  $bgColor={statusColors[status] || statusColors["UnKnown"]}
-                >
-                  {/* Out for Delivery */}
-                  {status}
-                </Status>
-                {!["Cancelled"].includes(status) ? (
-                  <button
-                    onClick={() =>
-                      cancelOrderHandler({
-                        orderId: order._id,
-                        productId: id,
-                        amount: product.price * quantity,
-                      })
-                    }
+              );
+            }
+
+            return (
+              <OrderProduct key={id}>
+                <div className="product">
+                  <ProdLink to={`/product/${product._id}`}>
+                    <img src={product.image} alt={product.title} />
+                  </ProdLink>
+                  <div className="productInfo">
+                    <ProdLink to={`/product/${product._id}`} className="title">
+                      {product.title}
+                    </ProdLink>
+                    <p>
+                      Color: <span>{color}</span>
+                    </p>
+                    <p>
+                      Size: <span>{size}</span>
+                    </p>
+                    <p>
+                      Quantity: <span>{quantity}</span>
+                    </p>
+                    <p>
+                      Price: <span>${product.price}</span>
+                    </p>
+                  </div>
+                  <h2 className="totalPrice">${product.price * quantity}</h2>
+                </div>
+                <div className="orderStatus">
+                  <Status
+                    $bgColor={statusColors[status] || statusColors["UnKnown"]}
                   >
-                    {isLoading ? "Cancelling..." : "Cancel Order"}
-                  </button>
-                ) : (
-                  <StatusPera>
-                    {status === "Cancelled" &&
-                      "This Order Has Been Cancelled. Thank You For Using Our Services"}
-                  </StatusPera>
-                )}
-              </div>
-            </OrderProduct>
-          )
+                    {/* Out for Delivery */}
+                    {status}
+                  </Status>
+                  {!["Cancelled"].includes(status) ? (
+                    <button
+                      onClick={() =>
+                        cancelOrderHandler({
+                          orderId: order._id,
+                          productId: id,
+                          amount: product.price * quantity,
+                        })
+                      }
+                    >
+                      {isLoading ? "Cancelling..." : "Cancel Order"}
+                    </button>
+                  ) : (
+                    <StatusPera>
+                      {status === "Cancelled" &&
+                        "This Order Has Been Cancelled. Thank You For Using Our Services"}
+                    </StatusPera>
+                  )}
+                </div>
+              </OrderProduct>
+            );
+          }
         )}
 
-      {order.amount > 0 && (
+      {totalAmount > 0 && (
         <TotalContainer>
-          <div className="totalInfo">
-            <p>
-              Subtotal: <span>${order.amount}</span>
-            </p>
-            <p>
-              Tax: <span>$4</span>
-            </p>
-            <p>
-              Shipping: <span>$6</span>
-            </p>
-          </div>
-          <div>
-            <p className="totalAmount">
-              Total: <span>${order.amount + 4 + 6}</span>
-            </p>
-          </div>
+          <>
+            <div className="totalInfo">
+              <p>
+                Subtotal: <span>${totalAmount}</span>
+              </p>
+              <p>
+                Tax: <span>$4</span>
+              </p>
+              <p>
+                Shipping: <span>$6</span>
+              </p>
+            </div>
+            <div>
+              <p className="totalAmount">
+                Total: <span>${totalAmount + 4 + 6}</span>
+              </p>
+            </div>
+          </>
         </TotalContainer>
       )}
     </OrdersContainer>

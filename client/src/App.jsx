@@ -52,9 +52,7 @@ function App() {
 
   const logoutHandler = async () => {
     try {
-      const res = await makePublicRequest.put("/auth/logout");
-      console.log(res.data);
-
+      await makePublicRequest.put("/auth/logout");
       dispatch(logoutUser());
 
       <Navigate to={"/"} />;

@@ -9,8 +9,8 @@ const initialState = {
 
 export const logoutHandler = createAsyncThunk("logoutUser", async () => {
   try {
-    const res = await makePublicRequest.put("/auth/logout");
-    console.log(res.data);
+    await makePublicRequest.put("/auth/logout");
+    
   } catch (error) {
     console.log(error);
     throw new Error(error.response.data.error || "logout failed");

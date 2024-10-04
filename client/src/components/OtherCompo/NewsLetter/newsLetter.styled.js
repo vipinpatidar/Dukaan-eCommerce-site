@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mobile, tab } from "../../../responsive";
+import { mobile, tab, smallMobile } from "../../../responsive";
 
 export const Container = styled.div`
   background-color: rgb(229 231 235);
@@ -9,8 +9,9 @@ export const Container = styled.div`
   flex-direction: column;
   height: 52vh;
   padding: 10px;
-  ${tab({ height: "32vh" })}
+  ${tab({ height: "35vh" })}
   ${mobile({ height: "42vh" })}
+  ${smallMobile({ height: "50vh" })}
 
   & p {
     margin-bottom: 40px;
@@ -22,7 +23,7 @@ export const Container = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -36,10 +37,10 @@ export const Title = styled.h1`
 `;
 
 export const Desc = styled.div`
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 500;
   color: #333;
-  ${mobile({ textAlign: "center", fontSize: "35px" })}
+  ${mobile({ textAlign: "center", fontSize: "30px" })}
 `;
 
 export const InputContainer = styled.div`

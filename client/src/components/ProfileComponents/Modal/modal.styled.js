@@ -72,6 +72,9 @@ export const Input = styled.input`
   padding: 10px;
   outline: none;
   border: 1px solid #eee;
+  &:first-child {
+    margin-top: 0px;
+  }
 `;
 
 export const Agreement = styled.span`
@@ -91,5 +94,19 @@ export const Button = styled.button`
 
   &:hover {
     background-color: #8710d8;
+  }
+`;
+
+export const ImgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  & img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 50%;
   }
 `;

@@ -47,7 +47,7 @@ export const getOrder = async (req, res, next) => {
       ]
     );
 
-    // Update return order to status "Returned"
+    // Update return order to status "Refunded"
     await Order.updateMany(
       {
         userId: userId,

@@ -48,9 +48,16 @@ const OrderCheckoutForm = ({ amount, products }) => {
     setOrderData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const { mutate } = useMutation((data) => {
-    return makeUserRequest.delete(`/carts/clearCart/${data}`);
-  });
+  const { mutate } = useMutation(
+    (data) => {
+      return makeUserRequest.delete(`/carts/clearCart/${data}`);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("cart");
+      },
+    }
+  );
 
   // if Payment successful post order
   const makeOrderHandler = async () => {
@@ -125,7 +132,7 @@ const OrderCheckoutForm = ({ amount, products }) => {
 
   useEffect(() => {
     if (locate === true) {
-      dispatch(addToCart({ totalProds: 0 }));
+      dispatch(addToCart({ totalProducts: 0 }));
       queryClient.invalidateQueries("cart");
       navigate("/orderStatus");
     }

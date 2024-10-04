@@ -8,6 +8,7 @@ import {
   Title,
   Button,
   Close,
+  ImgContainer,
 } from "./addProductModal.styled";
 import { makeUserRequest } from "../../../utils/axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -45,7 +46,7 @@ const AddProductModal = ({ onClose, user }) => {
     const { name, value } = e.target;
     setArrayInputs((prevState) => ({
       ...prevState,
-      [name]: value.split(",").map((v) => v.trim()),
+      [name]: value.split(",").map((v) => v.toLowerCase().trim()),
     }));
   };
 
@@ -73,7 +74,7 @@ const AddProductModal = ({ onClose, user }) => {
         image: downloadURL,
         productAdminId: user._id,
       };
-      console.log(productData);
+      // console.log(productData);
 
       mutate(productData);
     } catch (err) {
@@ -86,6 +87,19 @@ const AddProductModal = ({ onClose, user }) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
+    if (
+      inputs.title === "" ||
+      inputs.description === "" ||
+      inputs.price === "" ||
+      file === null ||
+      arrayInputs.categories.length === 0 ||
+      arrayInputs.color.length === 0 ||
+      arrayInputs.size.length === 0
+    ) {
+      setError("Please fill all the fields");
+      return;
+    }
 
     try {
       setProcessing(true);
@@ -108,15 +122,18 @@ const AddProductModal = ({ onClose, user }) => {
         <Close onClick={onClose}>X</Close>
 
         <Wrapper>
-          <Title>Update Your Account</Title>
+          <Title>Add Your Product</Title>
           <Form onSubmit={handleClick}>
-            <Input
-              style={{ border: "none" }}
-              placeholder="Your image"
-              name="image"
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
+            <ImgContainer>
+              <Input
+                style={{ border: "none" }}
+                placeholder="Your image"
+                name="image"
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              {file && <img src={URL.createObjectURL(file)} alt="product" />}
+            </ImgContainer>
             <Input
               placeholder="Product Title"
               name="title"
@@ -140,21 +157,21 @@ const AddProductModal = ({ onClose, user }) => {
               required
             />
             <Input
-              placeholder="Categories"
+              placeholder="Categories (eg. men, women, all, footwear, accessories)"
               name="categories"
               onChange={arrayInputsChangeHandler}
               value={arrayInputs.categories}
               required
             />
             <Input
-              placeholder="Sizes"
+              placeholder="Sizes (eg. S, M, L, XL) Or (8, 9, 10, 11) or (fit loose)"
               name="size"
               type="text"
               onChange={arrayInputsChangeHandler}
               value={arrayInputs.size}
             />
             <Input
-              placeholder="Colors"
+              placeholder="Colors (eg. red, green, blue)"
               name="color"
               type="text"
               onChange={arrayInputsChangeHandler}
@@ -166,7 +183,7 @@ const AddProductModal = ({ onClose, user }) => {
               </p>
             )}
             <Button disabled={isLoading || processing}>
-              {isLoading || processing ? "Processing..." : "UPDATE"}
+              {isLoading || processing ? "Processing..." : "ADD"}
             </Button>
           </Form>
         </Wrapper>

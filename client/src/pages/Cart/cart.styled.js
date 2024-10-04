@@ -175,7 +175,7 @@ export const Summary = styled.div`
 `;
 
 export const SummaryTitle = styled.h1`
-  font-weight: 200;
+  font-weight: 500;
 `;
 
 export const SummaryItem = styled.div`

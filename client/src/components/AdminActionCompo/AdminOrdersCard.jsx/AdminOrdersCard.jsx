@@ -140,7 +140,7 @@ const AdminOrdersCard = ({ order, index }) => {
                     />
                   ) : (
                     <StatusPera $color={statusColors["Cancelled"]}>
-                      This Order Was Cancelled By The Customer.
+                      This Order Was Cancelled.
                     </StatusPera>
                   )}
                 </div>

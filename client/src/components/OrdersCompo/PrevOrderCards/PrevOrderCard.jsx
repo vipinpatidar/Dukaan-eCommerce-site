@@ -92,85 +92,106 @@ const PrevOrderCard = ({ order, index }) => {
       {order.products &&
         order.products.length > 0 &&
         order.products.map(
-          ({ productId: product, color, size, status, quantity, _id: id }) => (
-            <OrderProduct key={id}>
-              <div className="product">
-                <ProdLink to={`/product/${product._id}`}>
-                  <img src={product.image} alt={product.title} />
-                </ProdLink>
-                <div className="productInfo">
-                  <ProdLink to={`/product/${product._id}`} className="title">
-                    {product.title}
-                  </ProdLink>
-                  <p>
-                    Color: <span>{color}</span>
-                  </p>
-                  <p>
-                    Size: <span>{size}</span>
-                  </p>
-                  <p>
-                    Quantity: <span>{quantity}</span>
-                  </p>
-                  <p>
-                    Price: <span>${product.price}</span>
-                  </p>
-                </div>
-                <h2 className="totalPrice">${product.price * quantity}</h2>
-              </div>
-              <div className="orderStatus">
-                <Status
-                  $bgColor={statusColors[status] || statusColors["UnKnown"]}
+          ({ productId: product, color, size, status, quantity, _id: id }) => {
+            if (product === null) {
+              return (
+                <h1
+                  key={"heading"}
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    fontSize: "1.2rem",
+                    marginTop: "1.6rem",
+                  }}
                 >
-                  {/* Out for Delivery */}
-                  {status}
-                </Status>
-                {["Delivered"].includes(status) && !isOrderMoreThanSevenDays ? (
-                  <button
-                    onClick={() =>
-                      returnOrderHandler({
-                        orderId: order._id,
-                        productId: id,
-                      })
-                    }
+                  This product is not available or deleted
+                </h1>
+              );
+            }
+
+            return (
+              <OrderProduct key={id}>
+                <div className="product">
+                  <ProdLink to={`/product/${product._id}`}>
+                    <img src={product.image} alt={product.title} />
+                  </ProdLink>
+                  <div className="productInfo">
+                    <ProdLink to={`/product/${product._id}`} className="title">
+                      {product.title}
+                    </ProdLink>
+                    <p>
+                      Color: <span>{color}</span>
+                    </p>
+                    <p>
+                      Size: <span>{size}</span>
+                    </p>
+                    <p>
+                      Quantity: <span>{quantity}</span>
+                    </p>
+                    <p>
+                      Price: <span>${product.price}</span>
+                    </p>
+                  </div>
+                  <h2 className="totalPrice">${product.price * quantity}</h2>
+                </div>
+                <div className="orderStatus">
+                  <Status
+                    $bgColor={statusColors[status] || statusColors["UnKnown"]}
                   >
-                    {isLoading ? "Processing..." : "Return"}
-                  </button>
-                ) : (
-                  <StatusPera $color={statusColors[status]}>
-                    {status === "Returned"
-                      ? "You will get your money back within 24 hours."
-                      : status === "Refunded"
-                      ? "Your money has been refunded. Thank you for shopping with us."
-                      : status === "Cancelled"
-                      ? "This Order Was Cancelled. Thank You For Using Our Services"
-                      : status === "Delivered"
-                      ? "This Order Was Delivered. Thank You For Using Our Services"
-                      : "Thank You For Using Our Services"}
-                  </StatusPera>
-                )}
-              </div>
-            </OrderProduct>
-          )
+                    {/* Out for Delivery */}
+                    {status}
+                  </Status>
+                  {["Delivered"].includes(status) &&
+                  !isOrderMoreThanSevenDays ? (
+                    <button
+                      onClick={() =>
+                        returnOrderHandler({
+                          orderId: order._id,
+                          productId: id,
+                        })
+                      }
+                    >
+                      {isLoading ? "Processing..." : "Return"}
+                    </button>
+                  ) : (
+                    <StatusPera $color={statusColors[status]}>
+                      {status === "Returned"
+                        ? "You will get your money back within 24 hours."
+                        : status === "Refunded"
+                        ? "Your money has been refunded. Thank you for shopping with us."
+                        : status === "Cancelled"
+                        ? "This Order Was Cancelled. Thank You For Using Our Services"
+                        : status === "Delivered"
+                        ? "This Order Was Delivered. Thank You For Using Our Services"
+                        : "Thank You For Using Our Services"}
+                    </StatusPera>
+                  )}
+                </div>
+              </OrderProduct>
+            );
+          }
         )}
 
       {order.amount > 0 && (
         <TotalContainer>
-          <div className="totalInfo">
-            <p>
-              Subtotal: <span>${order.amount}</span>
-            </p>
-            <p>
-              Tax: <span>$4</span>
-            </p>
-            <p>
-              Shipping: <span>$6</span>
-            </p>
-          </div>
-          <div>
-            <p className="totalAmount">
-              Total: <span>${order.amount + 4 + 6}</span>
-            </p>
-          </div>
+          <>
+            <div className="totalInfo">
+              <p>
+                Subtotal: <span>${order.amount}</span>
+              </p>
+              <p>
+                Tax: <span>$4</span>
+              </p>
+              <p>
+                Shipping: <span>$6</span>
+              </p>
+            </div>
+            <div>
+              <p className="totalAmount">
+                Total: <span>${order.amount + 4 + 6}</span>
+              </p>
+            </div>
+          </>
         </TotalContainer>
       )}
     </OrdersContainer>
