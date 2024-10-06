@@ -21,6 +21,7 @@ const Login = ({ setAutoLogout }) => {
     password: "",
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { state } = useLocation();
@@ -35,6 +36,7 @@ const Login = ({ setAutoLogout }) => {
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const res = await makePublicRequest.post(`/auth/login`, {
         identity: inputs.identity,
         password: inputs.password,
@@ -71,6 +73,8 @@ const Login = ({ setAutoLogout }) => {
       const err = error.response.data.error;
       setError(err);
       // console.log(error.response.data.error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -93,7 +97,9 @@ const Login = ({ setAutoLogout }) => {
             onChange={inputChangeHandler}
             autoComplete="off"
           />
-          <Button onClick={loginHandler}>LOGIN</Button>
+          <Button onClick={loginHandler} disabled={isLoading}>
+            {isLoading ? "LOGGING IN..." : "LOGIN"}
+          </Button>
           <GuestLink
             onClick={() => {
               setInputs({

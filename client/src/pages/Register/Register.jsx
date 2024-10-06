@@ -22,6 +22,7 @@ const Register = () => {
     conPassword: "",
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const inputsChangeHandler = (e) => {
@@ -36,6 +37,8 @@ const Register = () => {
         setError("Passwords do not match please confirm same password");
         return;
       }
+
+      setIsLoading(true);
       const res = await makePublicRequest.post(`/auth/register`, inputs);
 
       if (res.data) {
@@ -53,6 +56,8 @@ const Register = () => {
     } catch (error) {
       const err = error?.response?.data?.error;
       setError(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,7 +113,9 @@ const Register = () => {
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <Button disabled={isLoading}>
+            {isLoading ? "CREATING..." : "CREATE"}
+          </Button>
         </Form>
         <StyledLink to={"/login"}>Already have an account?</StyledLink>
       </Wrapper>
