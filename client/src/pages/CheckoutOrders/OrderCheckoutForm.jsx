@@ -48,16 +48,9 @@ const OrderCheckoutForm = ({ amount, products }) => {
     setOrderData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const { mutate } = useMutation(
-    (data) => {
-      return makeUserRequest.delete(`/carts/clearCart/${data}`);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("cart");
-      },
-    }
-  );
+  const { mutate } = useMutation((data) => {
+    return makeUserRequest.delete(`/carts/clearCart/${data}`);
+  });
 
   // if Payment successful post order
   const makeOrderHandler = async () => {
@@ -77,6 +70,8 @@ const OrderCheckoutForm = ({ amount, products }) => {
         pin: orderData.pin,
         orderDate: Date.now(),
       });
+
+      await mutate(currentUser._id);
     } catch (error) {
       console.log(error);
       throw error;
@@ -116,7 +111,7 @@ const OrderCheckoutForm = ({ amount, products }) => {
       if (!error) {
         elements.getElement(PaymentElement).clear();
         await makeOrderHandler();
-        await mutate(currentUser._id);
+        await queryClient.invalidateQueries("cart");
         setLocate(true);
       }
 
@@ -133,7 +128,6 @@ const OrderCheckoutForm = ({ amount, products }) => {
   useEffect(() => {
     if (locate === true) {
       dispatch(addToCart({ totalProducts: 0 }));
-      queryClient.invalidateQueries("cart");
       navigate("/orderStatus");
     }
     //eslint-disable-next-line

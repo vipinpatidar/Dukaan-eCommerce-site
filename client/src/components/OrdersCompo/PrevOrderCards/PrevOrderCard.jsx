@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from "react-query";
 import {
   OrdersHeader,
   OrderProduct,
@@ -8,7 +7,8 @@ import {
   StatusPera,
   ProdLink,
 } from "./prevOrderCard.styled";
-import { makeUserRequest } from "../../../utils/axios";
+
+import Button from "./Button";
 const PrevOrderCard = ({ order, index }) => {
   const statusColors = {
     "Order Placed": "#007bff",
@@ -20,24 +20,6 @@ const PrevOrderCard = ({ order, index }) => {
     Cancelled: "#dc3545",
     Refunded: "#6610f2",
     UnKnown: "#17a2b8",
-  };
-
-  const queryClient = useQueryClient();
-
-  const { mutate, isLoading } = useMutation(
-    (prodData) => {
-      return makeUserRequest.put(`/orders/return-order`, prodData);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("threeDayOldOrders");
-      },
-    }
-  );
-
-  const returnOrderHandler = (prodData) => {
-    //  console.log(prodData);
-    mutate(prodData);
   };
 
   const isOrderMoreThanSevenDays =
@@ -143,16 +125,7 @@ const PrevOrderCard = ({ order, index }) => {
                   </Status>
                   {["Delivered"].includes(status) &&
                   !isOrderMoreThanSevenDays ? (
-                    <button
-                      onClick={() =>
-                        returnOrderHandler({
-                          orderId: order._id,
-                          productId: id,
-                        })
-                      }
-                    >
-                      {isLoading ? "Processing..." : "Return"}
-                    </button>
+                    <Button order={order} id={id} />
                   ) : (
                     <StatusPera $color={statusColors[status]}>
                       {status === "Returned"

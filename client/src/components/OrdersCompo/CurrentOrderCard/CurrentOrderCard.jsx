@@ -1,4 +1,4 @@
-import { makeUserRequest } from "../../../utils/axios";
+import Button from "./Button.jsx";
 import {
   OrdersHeader,
   OrderProduct,
@@ -9,7 +9,6 @@ import {
   StatusPera,
   ProdLink,
 } from "./currentOrderCard.styled";
-import { useMutation, useQueryClient } from "react-query";
 
 const CurrentOrderCard = ({ order, index }) => {
   const statusColors = {
@@ -22,24 +21,6 @@ const CurrentOrderCard = ({ order, index }) => {
     Cancelled: "#dc3545",
     Refunded: "#6610f2",
     UnKnown: "#17a2b8",
-  };
-
-  const queryClient = useQueryClient();
-
-  const { mutate, isLoading } = useMutation(
-    (prodData) => {
-      return makeUserRequest.put(`/orders/cancel-order`, prodData);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("orders");
-      },
-    }
-  );
-
-  const cancelOrderHandler = (prodData) => {
-    //  console.log(prodData);
-    mutate(prodData);
   };
 
   let totalAmount = 0;
@@ -168,17 +149,12 @@ const CurrentOrderCard = ({ order, index }) => {
                     {status}
                   </Status>
                   {!["Cancelled"].includes(status) ? (
-                    <button
-                      onClick={() =>
-                        cancelOrderHandler({
-                          orderId: order._id,
-                          productId: id,
-                          amount: product.price * quantity,
-                        })
-                      }
-                    >
-                      {isLoading ? "Cancelling..." : "Cancel Order"}
-                    </button>
+                    <Button
+                      id={id}
+                      order={order}
+                      product={product}
+                      quantity={quantity}
+                    />
                   ) : (
                     <StatusPera>
                       {status === "Cancelled" &&
