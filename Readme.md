@@ -15,12 +15,6 @@ Dukaan is a full-stack MERN (MongoDB, Express.js, React, Node.js) eCommerce appl
 
 ## Installation
 
-### Prerequisites
-
-- Node.js and npm installed globally.
-- MongoDB instance.
-- Stripe account for payment integration.
-
 ### Using Docker
 
 <details>
@@ -230,6 +224,12 @@ services:
 3.  Stop and Remove containers
 
     docker-compose down
+
+### Prerequisites
+
+- Node.js and npm installed globally.
+- MongoDB instance.
+- Stripe account for payment integration.
 
 ## Backend Setup
 
