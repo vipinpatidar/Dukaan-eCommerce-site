@@ -279,7 +279,3 @@ services:
 - As an admin, you can access the admin dashboard, add products for sale, and manage your inventory.
 
 Happy shopping on Dukaan! 🛍️
-
-```
-
-```
